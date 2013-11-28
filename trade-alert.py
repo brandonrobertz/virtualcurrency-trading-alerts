@@ -92,7 +92,10 @@ def find_player():
   print( "[!] Fatal! no players found.")
   sys.exit(1)
 
-def alert_audio( audiofile, player):
+def alert_audio( audiofile, player, custom=False):
+  if custom:
+    call([player, audiofile])
+    return
   if "linux" in sys.platform:
     if player == "aplay":
       call(["aplay", audiofile])
@@ -149,6 +152,8 @@ def get_args():
                       help='Wait this number of seconds between alerts. If you want an alert to fire back-to-back until volume even is over, set this to 0. Default: 300')
   parser.add_argument('--audiofile', type=str, default="notify.wav",
                       help='Location of audio file to play. Default: notify.wav')
+  parser.add_argument('--player', type=str, default="",
+                      help="Specify player to play audio files. Will override automatic search for players. The filename will be tacked onto the end of the player as an argument.")
   parser.add_argument('--host', type=str, default="smtp.googlemail.com",
                       help='SMTP host')
   parser.add_argument('--port', type=int, default=587,
@@ -181,10 +186,17 @@ if __name__ == "__main__":
                                                 seconds, alert_volume))
   # If audio_type
   if alert_type == "audio":
-    print( "\talert: audio")
     audiofile    = args.audiofile
+    custom       = args.player
+    if custom:
+      player = custom
+      custom = True
+    else:
+      player = find_player()
+      custom = False
+    print( "\talert:     audio")
     print( "\taudiofile: %s"%(audiofile))
-    player = find_player()
+    print( "\tplayer:    %s"%player)
   elif "mail" in alert_type:
     print( "\talert: e-mail")
     host      = args.host
@@ -212,7 +224,7 @@ if __name__ == "__main__":
         if last_alert + limit <= time.time():
           # our alert
           if alert_type == "audio":
-            alert_audio( audiofile, player)
+            alert_audio( audiofile, player, custom)
           elif "mail" in alert_type:
             alert_email( host, sender, recipient, subject, body, port, enc)
           # set last alert time (now!)
