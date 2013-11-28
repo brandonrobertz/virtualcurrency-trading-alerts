@@ -1,6 +1,8 @@
 #!/usr/bin/python
+from __future__ import print_function
 
 import urllib2
+import os
 import json
 import sys
 import ssl
@@ -20,14 +22,14 @@ def get_json(url):
       loaded = True
     except ssl.SSLError:
       # another timeout
-      print "[!] SSL Error. Retrying..."
+      print( "[!] SSL Error. Retrying...")
     except ValueError:
       # we didn't get a json back (probably an error page)
-      print "[!] ValueError. Retrying..."
+      print( "[!] ValueError. Retrying...")
     except socket.timeout:
-      print "[!] Socket timeout. Retrying..."
+      print( "[!] Socket timeout. Retrying...")
     except Exception as e:
-      print "[!] Error %s. Retrying..."%e
+      print( "[!] Error %s. Retrying..."%e)
   return j
 
 def get_trades(exchange, since):
@@ -39,10 +41,10 @@ def get_trades(exchange, since):
     if trades["result"] == u'success':
       return trades
     else:
-      print "[!] Failure, retrying."
+      print( "[!] Failure, retrying.")
       get_trades(exchange, since)
   else:
-    print "Exchange %s not found. Exiting."%exchange
+    print( "Exchange %s not found. Exiting."%exchange)
     sys.exit(1)
 
 def calculate_vol( timeframe):
@@ -65,7 +67,7 @@ def calculate_vol( timeframe):
 # ALERT WITH AUDIO
 def find_player():
   """ Test a bunch of players, depending on platform to find one that works."""
-  print "[*] Searching for a player ..."
+  print( "[*] Searching for a player ...")
   if "linux" in sys.platform:
     # aplay
     try:
@@ -86,8 +88,8 @@ def find_player():
     except OSError:
       pass
   else:
-    print "[!] Only supporting linux."
-  print "[!] Fatal! no players found."
+    print( "[!] Only supporting linux.")
+  print( "[!] Fatal! no players found.")
   sys.exit(1)
 
 def alert_audio( audiofile, player):
@@ -114,21 +116,21 @@ def alert_email( host, sender, recipient,
   msg['To'] = recipient
   # tls
   if encryption == "tls":
-    print "[*] Connecting to e-mail server"
+    print( "[*] Connecting to e-mail server")
     s = smtplib.SMTP(host, port)
-    print "[*] Encrypting session."
+    print( "[*] Encrypting session.")
     s.starttls()
   # ssl
   elif encryption == "ssl":
-    print "[*] Connecting to e-mail server"
+    print( "[*] Connecting to e-mail server")
     s = smtplib.SMTP_SSL(host, port)
   # no encryption
   else:
-    print "[*] Connecting to e-mail server"
+    print( "[*] Connecting to e-mail server")
     s = smtplib.SMTP(host, port)
   s.sendmail(sender, [recipient], msg.as_string())
   s.quit()
-  print "[*] E-mail sent"
+  print( "[*] E-mail sent")
 
 def get_args():
   import argparse
@@ -164,27 +166,27 @@ def get_args():
   return parser.parse_args()
 
 if __name__ == "__main__":
-  print "###########################################################################"
-  print "#                          trade_alert by brand0                          #"
-  print "#                            buy me a drink:                              #"
-  print "#                   1PdGYTgZTTZgcJfKuokH8XoBgvqAntGUcA                    #"
-  print "###########################################################################"
+  print( "###########################################################################")
+  print( "#                          trade_alert by brand0                          #")
+  print( "#                            buy me a drink:                              #")
+  print( "#                   1PdGYTgZTTZgcJfKuokH8XoBgvqAntGUcA                    #")
+  print( "###########################################################################")
   args         = get_args()
   exchange     = args.exchange
   seconds      = args.timeframe
   alert_volume = args.volume
   alert_type   = args.alert_type
   limit        = args.limit
-  print "\texchange: %s\ttimeframe: %s(s)\tvolume: %s BTC"%(exchange,
-                                                seconds, alert_volume)
+  print( "\texchange: %s\ttimeframe: %s(s)\tvolume: %s BTC"%(exchange,
+                                                seconds, alert_volume))
   # If audio_type
   if alert_type == "audio":
-    print "\talert: audio"
+    print( "\talert: audio")
     audiofile    = args.audiofile
-    print "\taudiofile: %s"%(audiofile)
+    print( "\taudiofile: %s"%(audiofile))
     player = find_player()
   elif "mail" in alert_type:
-    print "\talert: e-mail"
+    print( "\talert: e-mail")
     host      = args.host
     port      = args.port
     sender    = args.sender
@@ -192,19 +194,20 @@ if __name__ == "__main__":
     subject   = args.subject
     body      = args.body
     enc       = args.encryption
-    print "\thost:   %s port: %s encryption: %s"%(host, port, enc)
-    print "\tsender: %s recipient: %s"%(sender, recipient)
-    print "\tsubject: %s"%(subject)
+    print( "\thost:   %s port: %s encryption: %s"%(host, port, enc))
+    print( "\tsender: %s recipient: %s"%(sender, recipient))
+    print( "\tsubject: %s"%(subject))
   else:
-    print "[!] Alert %s not supported. Try: audio, e-mail"%alert_type
+    print( "[!] Alert %s not supported. Try: audio, e-mail"%alert_type)
     sys.exit(1)
   # main loop
   try:
     while(1):
       vol = calculate_vol( seconds)
-      print "[*] Vol: %s"%vol
+      #print "[*] Vol: %s"%vol
+      print("[*] Volume: "+str(vol), end="\r")
       if vol >= alert_volume:
-        print "[*] ALERT!"
+        print( "[*] ALERT!", end="\r")
         # are we past last alert + limit?
         if last_alert + limit <= time.time():
           # our alert
@@ -215,12 +218,12 @@ if __name__ == "__main__":
           # set last alert time (now!)
           last_alert = time.time()
         else:
-          print "[*] Alert rate-limited, skipping."
+          print( "[*] Alert rate-limited, skipping.", end="\r")
         time.sleep(1)
   except KeyboardInterrupt:
-    print "[*] Caught exit, quitting"
+    print( "[*] Caught exit, quitting")
     sys.exit()
   except Exception as e:
-    print "[!] Error: %s"%e
+    print( "[!] Error: %s"%e)
     sys.exit(1)
-  print "[*] Done."
+  print( "[*] Done.")
