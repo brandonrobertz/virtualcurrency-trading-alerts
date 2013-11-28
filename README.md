@@ -5,6 +5,8 @@ A simple alert system for when volume on a Bitcoin Exchange hits a certain numbe
 
 Helpful? Leave a tip: `1PdGYTgZTTZgcJfKuokH8XoBgvqAntGUcA`
 
+SMS alerts coming soon.
+
 OSX and Windows binaries are also available by request (and donation!): brandon ..at_ bxroberts  .dot. org
 
 ## USAGE
@@ -45,7 +47,11 @@ OSX and Windows binaries are also available by request (and donation!): brandon 
       --encryption ENCRYPTION
                             SMTP server encryption: tls, ssl, none
 
-## E-Mail Alert
+## Alerts
+
+Currently, the tool is capable of playing an audio file alert and sending an e-mail alert. The default action of the tool is to rate-limit the alert to once every five minutes, regardless of volume after the initial alert. This can be changed with the `--limit` command. Setting the limit to zero (`--limit 0`) will continually play an alert for the whole period of above-specified volume.
+
+### E-Mail Alert
 
 Example e-mail alert with 5-minute volume on Mt. Gox hits 500BTC:
 
@@ -53,7 +59,7 @@ Example e-mail alert with 5-minute volume on Mt. Gox hits 500BTC:
 
 SSL, TLS, and plain SMTP (no encryption) is supported with the `--encryption` option. Also pay attention to the `--limit` option. It's currently set to 300 seconds, but you may want to set it higher so you don't nuke your inbox.
 
-## Audio Alert
+### Audio Alert
 
 Example of an audio alert for 500BTC volume in last 5 mins:
 
@@ -61,17 +67,17 @@ Example of an audio alert for 500BTC volume in last 5 mins:
 
 Audio is played using command line tools. You can specify a specific player with the `--player` command. For example, if you want to play an audio file using `/usr/bin/parole`, you should use `--player /usr/bin/parole`. You can also specify command line arguments. The audio file will be tacked onto the end of the specified command as an argument. You can also let the tool search for a suitable player automatically. Currently tools are tried in the following order:
 
-### Linux
+#### Linux
 
 1. aplay
 2. /dev/dsp
 3. vlc
 
-### Windows
+#### Windows
 
 1. vlc
 
-### OSX
+#### OSX
 
 1. vlc
 
