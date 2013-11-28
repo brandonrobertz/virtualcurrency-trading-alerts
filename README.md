@@ -9,11 +9,12 @@ OSX and Windows binaries are also available by request (and donation!): brandon 
 
 ## USAGE
 
-    usage: trade_alert.py [-h] [--limit LIMIT] [--audiofile AUDIOFILE]
-                               [--host HOST] [--port PORT] [--sender SENDER]
-                               [--recipient RECIPIENT] [--subject SUBJECT]
-                               [--body BODY] [--encryption ENCRYPTION]
-                               exchange timeframe volume alert_type
+    usage: trade-alert.py [-h] [--limit LIMIT] [--audiofile AUDIOFILE]
+                          [--player PLAYER] [--host HOST] [--port PORT]
+                          [--sender SENDER] [--recipient RECIPIENT]
+                          [--subject SUBJECT] [--body BODY]
+                          [--encryption ENCRYPTION]
+                          exchange timeframe volume alert_type
 
     Play an audio or send an e-mail alert when trade volume in the past number of
     seconds reaches a specified amount.
@@ -26,10 +27,14 @@ OSX and Windows binaries are also available by request (and donation!): brandon 
 
     optional arguments:
       -h, --help            show this help message and exit
-      --limit LIMIT         Wait this number of seconds between alerts. Default:
-                            300
+      --limit LIMIT         Wait this number of seconds between alerts. If you
+                            want an alert to fire back-to-back until volume even
+                            is over, set this to 0. Default: 300
       --audiofile AUDIOFILE
                             Location of audio file to play. Default: notify.wav
+      --player PLAYER       Specify player to play audio files. Will override
+                            automatic search for players. The filename will be
+                            tacked onto the end of the player as an argument.
       --host HOST           SMTP host
       --port PORT           SMTP port
       --sender SENDER       E-mail alert sender
@@ -39,6 +44,7 @@ OSX and Windows binaries are also available by request (and donation!): brandon 
       --body BODY           E-mail alert body
       --encryption ENCRYPTION
                             SMTP server encryption: tls, ssl, none
+
 ## E-Mail Alert
 
 Example e-mail alert with 5-minute volume on Mt. Gox hits 500BTC:
@@ -53,7 +59,7 @@ Example of an audio alert for 500BTC volume in last 5 mins:
 
 `./trade_alert.py gox 300 500 audio --audiofile ./notify.wav`
 
-Audio is played using command line tools. Currently tools are tried in the following order:
+Audio is played using command line tools. You can specify a specific player with the `--player` command. For example, if you want to play an audio file using `/usr/bin/parole`, you should use `--player /usr/bin/parole`. You can also specify command line arguments. The audio file will be tacked onto the end of the specified command as an argument. You can also let the tool search for a suitable player automatically. Currently tools are tried in the following order:
 
 ### Linux
 

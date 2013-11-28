@@ -96,14 +96,13 @@ def alert_audio( audiofile, player, custom=False):
   if custom:
     call([player, audiofile])
     return
-  if "linux" in sys.platform:
-    if player == "aplay":
-      call(["aplay", audiofile])
-    elif player == "dsp":
-      with open("/dev/null", "w") as f:
-        call(["cat", audiofile], stdout=f)
-    elif player == "vlc":
-      call(["vlc", "-I dummy",audiofile])
+  if player == "aplay":
+    call(["aplay", audiofile])
+  elif player == "dsp":
+    with open("/dev/null", "w") as f:
+      call(["cat", audiofile], stdout=f)
+  elif player == "vlc":
+    call(["vlc", "-I dummy",audiofile])
 
 # ALERT WITH EMAIL
 def alert_email( host, sender, recipient,
