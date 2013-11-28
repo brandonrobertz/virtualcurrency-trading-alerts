@@ -146,7 +146,7 @@ def get_args():
   parser.add_argument('alert_type', type=str,
                       help='Type of alert: audio, e-mail')
   parser.add_argument('--limit', type=float, default=300,
-                      help='Wait this number of seconds between alerts. Default: 300')
+                      help='Wait this number of seconds between alerts. If you want an alert to fire back-to-back until volume even is over, set this to 0. Default: 300')
   parser.add_argument('--audiofile', type=str, default="notify.wav",
                       help='Location of audio file to play. Default: notify.wav')
   parser.add_argument('--host', type=str, default="smtp.googlemail.com",
