@@ -1,4 +1,4 @@
-virtualcurrency trading alerts
+virtualcurrencys trading alerts
 ==============================
 
 A simple alert system for when volume on a Bitcoin Exchange hits a certain number in a specified timeframe. When volume hits a certain threshold, you can be alerted in two ways: through an audio file being played or via e-mail. Hopefully you'll hear it, in the inevitable middle of the night, wake up, and profit (or panic).
@@ -69,18 +69,13 @@ _Alert Suggestion:_ ["Damn we're smooth" -Beavis](http://www.youtube.com/watch?v
 
 Audio is played using command line tools. You can specify a specific player with the `--player` command. For example, if you want to play an audio file using `/usr/bin/parole`, you should use `--player /usr/bin/parole`. You can also specify command line arguments. The audio file will be tacked onto the end of the specified command as an argument. You can also let the tool search for a suitable player automatically. Currently tools are tried in the following order:
 
-#### Linux
-
-1. aplay
-2. /dev/dsp
-3. vlc
-
-#### Windows
-
-1. vlc
-
-#### OSX
-
-1. vlc
+- Linux
+    1. aplay
+    2. /dev/dsp
+    3. vlc
+- Windows
+    1. vlc
+- OSX
+    1. vlc
 
 I'll also accept pull requests for more players/platforms.
