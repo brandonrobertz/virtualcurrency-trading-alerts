@@ -65,9 +65,9 @@ Example of an audio alert for 500BTC volume in last 5 mins:
 
 `./trade_alert.py gox 300 500 audio --audiofile ./notify.wav`
 
-Audio is played using command line tools. You can specify a specific player with the `--player` command. For example, if you want to play an audio file using `/usr/bin/parole`, you should use `--player /usr/bin/parole`. You can also specify command line arguments. The audio file will be tacked onto the end of the specified command as an argument. You can also let the tool search for a suitable player automatically. Currently tools are tried in the following order:
-
 _Alert Suggestion:_ ["Damn we're smooth" -Beavis](http://www.youtube.com/watch?v=zjRRgAYWnUA)
+
+Audio is played using command line tools. You can specify a specific player with the `--player` command. For example, if you want to play an audio file using `/usr/bin/parole`, you should use `--player /usr/bin/parole`. You can also specify command line arguments. The audio file will be tacked onto the end of the specified command as an argument. You can also let the tool search for a suitable player automatically. Currently tools are tried in the following order:
 
 #### Linux
 
