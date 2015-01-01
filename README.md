@@ -3,7 +3,7 @@ virtualcurrencys trading alerts
 
 A simple alert system for when volume on a Bitcoin Exchange hits a certain number in a specified timeframe. When volume hits a certain threshold, you can be alerted in two ways: through an audio file being played or via e-mail. Hopefully you'll hear it, in the inevitable middle of the night, wake up, and profit (or panic).
 
-Helpful? Leave a tip: `1PdGYTgZTTZgcJfKuokH8XoBgvqAntGUcA`
+Helpful? Leave a tip: `1NejrUgQDm34CFyMHuaff9PNsd8zhd7SgR`
 
 SMS alerts coming soon.
 
@@ -55,7 +55,8 @@ Currently, the tool is capable of playing an audio file alert and sending an e-m
 
 Example e-mail alert with 5-minute volume on Mt. Gox hits 500BTC:
 
-`./trade_alert.py gox 300 500 e-mail --host mydomain.org --port 587 --recipient me@mydomain.org --sender me@mydomain.org`
+    ./trade_alert.py gox 300 500 e-mail --host mydomain.org --port 587
+        --recipient me@mydomain.org --sender me@mydomain.org
 
 SSL, TLS, and plain SMTP (no encryption) is supported with the `--encryption` option. Also pay attention to the `--limit` option. It's currently set to 300 seconds, but you may want to set it higher so you don't nuke your inbox.
 
